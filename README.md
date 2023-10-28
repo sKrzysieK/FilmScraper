@@ -1,6 +1,6 @@
 # FilmScraper 
-FilmScraper is a webscraper created to collect information about films from Filmweb database. 
-It processes every film's data and formats it nicely. 
+FilmScraper is a webscraper created to collect information about films from Filmweb database.\n
+It processes every film's data and formats it nicely. \n
 Finaly, it saves all gathered info to json file and to a mongodb database. 
 
 
