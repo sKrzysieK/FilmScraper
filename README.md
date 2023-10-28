@@ -4,7 +4,7 @@ FilmScraper is a webscraper created to collect information about films from Film
 It processes every film's data and formats it nicely. 
 
 Finaly, it saves all gathered info to json file and to a mongodb database. 
-<br>
+<br><br><br>
 >[!IMPORTANT]
 >To use *FilmScraper* be sure to have installed:
 >  - Scrapy
