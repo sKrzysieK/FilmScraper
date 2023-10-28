@@ -32,23 +32,26 @@ from scrapy.exceptions import DropItem
 # from scrapy import log
 
 class MongoDBPipeline:
-    collection_name = "YOUR COLLECTION NAME HERE"
-    def __init__(self, mongo_uri, mongo_db):
+    def __init__(self, mongo_uri, mongo_db, mongo_db_collection_name, mongo_username, mongo_user_password):
         self.mongo_uri = mongo_uri
         self.mongo_db = mongo_db
+        self.mongo_db_collection_name = mongo_db_collection_name
+        self.mongo_username = mongo_username
+        self.mongo_user_password = mongo_user_password
 
     @classmethod
     def from_crawler(cls, crawler):
         return cls(
             mongo_uri=crawler.settings.get('MONGO_URI'),
-            mongo_db=crawler.settings.get('MONGO_DATABASE')
+            mongo_db=crawler.settings.get('MONGO_DATABASE'),
+            mongo_db_collection_name=crawler.settings.get('MONGO_DATABASE_COLLECTION_NAME'),
+            mongo_username=crawler.settings.get('MONGO_USERNAME'),
+            mongo_user_password=crawler.settings.get('MONGO_USER_PASSWORD')
         )
 
     def open_spider(self, spider):
-        self.mongo_username = "YOUR MONGODB USER HERE"
-        self.mongo_password = "YOUR MONGODB USER PASSWORD HERE"
         self.client = pymongo.MongoClient(
-            self.mongo_uri, username=self.mongo_username, password=self.mongo_password,
+            self.mongo_uri, username=self.mongo_username, password=self.mongo_user_password,
             tlsCAFile=ca
         )
         self.db = self.client[self.mongo_db]
@@ -57,5 +60,5 @@ class MongoDBPipeline:
         self.client.close()
 
     def process_item(self, item, spider):
-        self.db[self.collection_name].insert_one(dict(item))
+        self.db[self.mongo_db_collection_name].insert_one(dict(item))
         return item

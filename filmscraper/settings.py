@@ -1,38 +1,43 @@
 # Scrapy settings for filmscraper project
-#
-# For simplicity, this file contains only settings considered important or
-# commonly used. You can find more settings consulting the documentation:
-#
-#     https://docs.scrapy.org/en/latest/topics/settings.html
-#     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
+# BOT SETTINGS
 BOT_NAME = "filmscraper"
 
+# SPIDER SETTINGS
 SPIDER_MODULES = ["filmscraper.spiders"]
 NEWSPIDER_MODULE = "filmscraper.spiders"
 
+# OUTPUT FILE SETTING
 FEEDS = {
    'filmdata.json' : {'format' : 'json'}
 }
 
-
+# DATABASE SETTINGS
 MONGO_URI = "YOUR MONGODB URI HERE"
 MONGO_DATABASE = "YOUR DB NAME HERE"
+MONGO_DATABASE_COLLECTION_NAME = "YOUR COLLECTION NAME HERE"
+MONGO_USERNAME = "YOUR DB USERNAME HERE"
+MONGO_USER_PASSWORD = "YOUR USER PASSWORD HERE"
 
-
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "filmscraper (+http://www.yourdomain.com)"
-
-# Obey robots.txt rules
-ROBOTSTXT_OBEY = False
+# ROBOTS SETTINGS
+ROBOTSTXT_OBEY = False  # Obey robots.txt rules
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 CONCURRENT_REQUESTS = 320
 
+# Configure item pipelines
+# See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+ITEM_PIPELINES = {
+   "filmscraper.pipelines.FilmscraperPipeline": 300,
+   "filmscraper.pipelines.MongoDBPipeline": 200
+}
+
+# Set settings whose default value is deprecated to a future-proof value
+REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
+TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+FEED_EXPORT_ENCODING = "utf-8"
+
 # Configure a delay for requests for the same website (default: 0)
-# See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
-# See also autothrottle settings and docs
 #DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
@@ -68,12 +73,6 @@ CONCURRENT_REQUESTS = 320
 #    "scrapy.extensions.telnet.TelnetConsole": None,
 #}
 
-# Configure item pipelines
-# See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-   "filmscraper.pipelines.FilmscraperPipeline": 300,
-   "filmscraper.pipelines.MongoDBPipeline": 200
-}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -96,7 +95,4 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = "scrapy.extensions.httpcache.FilesystemCacheStorage"
 
-# Set settings whose default value is deprecated to a future-proof value
-REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
-TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
-FEED_EXPORT_ENCODING = "utf-8"
+
